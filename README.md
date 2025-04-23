@@ -48,9 +48,4 @@ Permainan Ular Tangga multiplayer dengan antarmuka grafis yang dibuat menggunaka
 
 ## Lisensi
 
-Proyek ini bersifat open source dan bebas digunakan.
-
----
-
-Selamat bermain permainan klasik Ular Tangga bersama teman dan keluarga!
-python3 snake.py
+Lisensi oleh maaulln. Hak cipta dilindungi.
