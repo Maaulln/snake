@@ -163,7 +163,7 @@ class SnakeLadderGame:
         
         # Inisialisasi queue giliran pemain
         self.player_queue = deque(range(1, num_players + 1)) 
-        self.current_player = self.player_queue[0]  # Pemain pertama
+        self.current_player = self.player_queue[0]
         
         # Reset posisi semua pemain
         self.player_positions = [1] * (num_players + 1)
@@ -207,9 +207,8 @@ class SnakeLadderGame:
         offset = 12 
         
         for i in range(1, num_players + 1):
-            x, y = self.positions[1]  # Semua pemain mulai di posisi 1
-            # Distribusikan pion di posisi awal agar tidak tumpang tindih
-            piece_offset = ((i-1) * 8) - ((num_players-1) * 4)  # Distribute pieces
+            x, y = self.positions[1] 
+            piece_offset = ((i-1) * 8) - ((num_players-1) * 4)  
             piece = self.canvas.create_oval(
                 x - offset + piece_offset, 
                 y - offset + piece_offset, 
@@ -221,31 +220,26 @@ class SnakeLadderGame:
             )
             self.player_pieces.append(piece)
         
-        # Update UI
-        self.start_button.pack_forget()  # Sembunyikan tombol mulai
-        self.roll_button.pack(pady=20)  # Tampilkan tombol dadu
+        self.start_button.pack_forget() 
+        self.roll_button.pack(pady=20)  
         
-        # Update label giliran
         self.turn_label.config(text=f"Giliran: Pemain {self.current_player} {self.player_symbols[self.current_player-1]}")
         self.turn_frame.config(bg=self.player_colors[self.current_player-1])
         self.turn_label.config(bg=self.player_colors[self.current_player-1])
         
-        # Reset dice
         self.dice_value.config(text="-")
         
-        # Set game in progress
         self.game_over = False
         
-        # Tampilkan pesan permainan dimulai
         messagebox.showinfo("🎮 Permainan Dimulai", f"Permainan dimulai dengan {num_players} pemain. Giliran Pemain 1!")
 
     def move_player(self, player_num, new_pos):
         """Pindahkan pion pemain ke posisi baru"""
         x, y = self.positions[new_pos]
         
-        # Distribusikan pion agar tidak tumpang tindih di kotak yang sama
-        piece_offset = ((player_num-1) * 8) - ((self.total_players-1) * 4)  # Distribute pieces
-        offset = 12  # Offset dasar
+        
+        piece_offset = ((player_num-1) * 8) - ((self.total_players-1) * 4) 
+        offset = 12  
 
         self.canvas.coords(
             self.player_pieces[player_num-1], 
@@ -261,30 +255,24 @@ class SnakeLadderGame:
 
     def roll_dice(self):
         """Lempar dadu dan pindahkan pemain saat ini"""
-        # Jika permainan sudah selesai, abaikan klik pada tombol lempar dadu
         if self.game_over:
             return
             
         dice = random.randint(1, 6)
         self.dice_value.config(text=str(dice))
         
-        # Animasi efek lempar dadu
         self.dice_label.config(text="🎯")
         self.root.after(100, lambda: self.dice_label.config(text="🎲"))
         
-        # Get current player index (0-based for array access)
         player_idx = self.current_player - 1
         
-        # High-light frame pemain yang sedang bermain
         for i, frame in enumerate(self.player_frames):
             if i == player_idx:
-                # Darken current player's color
                 darker_color = self.darken_color(self.player_colors[i])
                 frame.config(bg=darker_color, relief=tk.SUNKEN)
                 self.player_labels[i].config(bg=darker_color)
                 self.player_pos_labels[i].config(bg=darker_color)
             else:
-                # Reset other player's color
                 frame.config(bg=self.player_colors[i], relief=tk.RAISED)
                 self.player_labels[i].config(bg=self.player_colors[i])
                 self.player_pos_labels[i].config(bg=self.player_colors[i])
